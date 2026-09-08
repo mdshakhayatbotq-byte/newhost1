@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <title>JISAN PAIN HOSTING | DASHBOARD</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/dracula.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root { 
+      --bg: #000000; 
+      --card: rgba(0, 10, 0, 0.85); 
+      --accent: #00FF41;
+      --accent-glow: #33FF77;
+      --border: rgba(0, 255, 65, 0.25); 
+      --text-main: #00FF41;
+      --text-dim: #88FF88;
+      --glass: blur(16px);
+      --terminal-bg: #050a05;
+      --green-gradient: linear-gradient(135deg, #00AA22, #00FF41);
+    }
+
+    body { 
+      margin: 0; 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background: #000000; 
+      color: var(--text-main);
+      min-height: 100vh; 
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* SMOOTH CODE RAIN CANVAS BACKGROUND - GREEN */
+    #codeCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      display: block;
+      opacity: 0.6;
+    }
+
+    /* Gradient overlay for better text readability */
+    .overlay-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 30%, rgba(0,0,0,0.4), rgba(0,0,0,0.85));
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* All content above canvas */
+    .content-wrapper {
+      position: relative;
+      z-index: 2;
+    }
+
+    .topbar { 
+      display: flex; 
+      justify-content: space-between; 
+      padding: 12px 20px; 
+      background: rgba(0, 0, 0, 0.85); 
+      backdrop-filter: var(--glass); 
+      position: sticky; 
+      top: 0; 
+      z-index: 1000; 
+      border-bottom: 1.5px solid var(--accent);
+      box-shadow: 0 4px 20px rgba(0,255,65,0.15);
+    }
+    
+    .logo-box { 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+      font-weight: 800; 
+      color: #00FF41;
+      text-shadow: 0 0 8px rgba(0,255,65,0.4);
+    }
+    
+    .logo-icon { 
+      background: linear-gradient(135deg, #00AA22, #00FF41); 
+      width: 32px; 
+      height: 32px; 
+      border-radius: 8px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      color: black; 
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(0,255,65,0.5);
+    }
+
+    .container { 
+      padding: 20px 15px; 
+      max-width: 800px; 
+      margin: auto; 
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Console - Green Theme */
+    #console-wrapper { 
+      background: var(--terminal-bg); 
+      border-radius: 12px; 
+      border: 1px solid var(--accent); 
+      overflow: hidden; 
+      margin-bottom: 15px; 
+      box-shadow: 0 0 15px rgba(0,255,65,0.1);
+    }
+    
+    .terminal-header { 
+      background: #0a1a0a; 
+      padding: 8px 15px; 
+      border-bottom: 1px solid #33FF77; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      font-family: 'JetBrains Mono'; 
+      font-size: 10px; 
+      color: #88FF88; 
+    }
+    
+    #console { 
+      height: 300px; 
+      padding: 15px; 
+      overflow-y: auto; 
+      font-family: 'JetBrains Mono', monospace; 
+      font-size: 12px; 
+      line-height: 1.5; 
+      color: #AAFFAA; 
+      background: #030a03;
+    }
+    
+    .terminal-input-area { 
+      background: #081a08; 
+      padding: 10px 15px; 
+      border-top: 1px solid #33FF77; 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+    }
+    
+    .terminal-input-area input { 
+      background: transparent; 
+      border: none; 
+      color: #66FF66; 
+      flex: 1; 
+      font-family: 'JetBrains Mono'; 
+      font-size: 13px; 
+      outline: none; 
+    }
+    
+    .terminal-input-area input::placeholder {
+      color: #226622;
+    }
+    
+    .log-line { 
+      margin-bottom: 2px; 
+    }
+    
+    .log-time { 
+      color: #55FF55; 
+      margin-right: 8px; 
+    }
+
+    .srv-card { 
+      background: var(--card); 
+      border-radius: 18px; 
+      padding: 15px; 
+      margin-bottom: 12px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      border: 1px solid var(--border); 
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); 
+      backdrop-filter: var(--glass); 
+    }
+    
+    .srv-card:hover {
+      transform: translateY(-3px);
+      border-color: #00FF41;
+      box-shadow: 0 8px 25px rgba(0,255,65,0.2);
+    }
+    
+    .btn { 
+      padding: 10px 16px; 
+      border-radius: 12px; 
+      border: none; 
+      font-weight: 800; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+      font-size: 13px; 
+      transition: all 0.2s ease; 
+    }
+    
+    .btn:active { 
+      transform: scale(0.96); 
+    }
+    
+    .btn-green { 
+      background: linear-gradient(135deg, #00AA22, #00FF41); 
+      color: #000000; 
+      box-shadow: 0 4px 12px rgba(0,255,65,0.4);
+    }
+    
+    .btn-green:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,255,65,0.6);
+    }
+    
+    .btn-gray { 
+      background: #0a1a0a; 
+      color: #66FF66; 
+      border: 1px solid rgba(0,255,65,0.3); 
+    }
+    
+    .btn-gray:hover {
+      background: #102a10;
+      border-color: #00FF41;
+    }
+
+    .file-item { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 12px 15px; 
+      border-bottom: 1px solid var(--border); 
+      cursor: pointer; 
+      transition: background 0.2s;
+      color: #CCFFCC;
+    }
+    
+    .file-item:hover {
+      background: rgba(0,255,65,0.08);
+    }
+    
+    .menu-overlay { 
+      position: fixed; 
+      inset: 0; 
+      background: rgba(0,0,0,0.85); 
+      display: none; 
+      z-index: 5000; 
+      align-items: center; 
+      justify-content: center; 
+      backdrop-filter: blur(8px); 
+    }
+    
+    .menu-content { 
+      background: #0a1a0a; 
+      width: 280px; 
+      border-radius: 20px; 
+      border: 1px solid #00FF41; 
+      box-shadow: 0 10px 40px rgba(0,255,65,0.3);
+    }
+    
+    .menu-item { 
+      padding: 14px 20px; 
+      color: #88FF88; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      border-bottom: 1px solid rgba(0,255,65,0.1); 
+      transition: background 0.2s;
+    }
+    
+    .menu-item:hover {
+      background: rgba(0,255,65,0.15);
+      color: #00FF41;
+    }
+    
+    #editor { 
+      display:none; 
+      position:fixed; 
+      inset:0; 
+      background: #000000; 
+      z-index:6000; 
+      padding:15px; 
+    }
+    
+    .CodeMirror { 
+      height: 85vh; 
+      border-radius: 12px; 
+      font-size: 14px; 
+      border: 1px solid #00FF41;
+    }
+    
+    /* Custom scrollbar green theme */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #050a05;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #00FF41;
+      border-radius: 10px;
+    }
+    
+    /* Animation for buttons */
+    @keyframes pulseGreen {
+      0% { box-shadow: 0 0 0 0 rgba(0,255,65,0.4); }
+      70% { box-shadow: 0 0 0 8px rgba(0,255,65,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,255,65,0); }
+    }
+    
+    .btn-green:focus {
+      animation: pulseGreen 0.5s;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SMOOTH CODE RAIN CANVAS - GREEN -->
+  <canvas id="codeCanvas"></canvas>
+  <div class="overlay-gradient"></div>
+
+  <div class="content-wrapper">
+    <div class="topbar">
+      <div class="logo-box">
+        <div class="logo-icon"><i class="fas fa-skull"></i></div>
+        <span style="font-size: 1.3rem;">JISAN <span style="color:#44FF44;">PAIN</span> HOSTING</span>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-gray" onclick="location.href='/logout'"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
+
+    <div class="container" id="homeView">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h2 style="margin:0; color:#00FF41; text-shadow:0 0 5px rgba(0,255,65,0.3);"><i class="fas fa-server"></i> My Instances</h2>
+        <button class="btn btn-green" onclick="createServer()"><i class="fas fa-plus"></i> Create</button>
+      </div>
+      <div id="srvList"></div>
+    </div>
+
+    <div class="container" id="manageView" style="display:none">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <button class="btn btn-gray" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+        <div id="vUptime" style="font-size:11px; font-family:'JetBrains Mono'; color:#88FF88;">OFFLINE</div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-bottom:15px;">
+        <button class="btn btn-green" style="justify-content:center" onclick="srvAction('start')"><i class="fas fa-play"></i> START</button>
+        <button class="btn btn-gray" style="justify-content:center" onclick="srvAction('restart')"><i class="fas fa-sync"></i> RESTART</button>
+        <button class="btn btn-gray" style="justify-content:center; color:#66FF66" onclick="srvAction('stop')"><i class="fas fa-stop"></i> STOP</button>
+      </div>
+
+      <div style="margin-top: 10px; margin-bottom: 15px;">
+        <button class="btn btn-gray" style="justify-content:center; color:#44FF44; width:100%; border-color:#00FF41;" onclick="deleteServer()">
+          <i class="fas fa-trash-alt"></i> DELETE SERVER
+        </button>
+      </div>
+
+      <div id="console-wrapper">
+        <div class="terminal-header">
+          <span><i class="fas fa-terminal"></i> CONSOLE</span>
+          <span id="vSrvName" style="color:#44FF44;">-</span>
+        </div>
+        <div id="console"></div>
+        <div class="terminal-input-area">
+          <span style="color:#44FF44; font-weight:bold;">$</span>
+          <input type="text" id="termCmd" placeholder="Type a command..." onkeydown="if(event.key==='Enter') sendConsoleCommand()">
+        </div>
+      </div>
+
+      <div style="background:var(--card); border-radius:18px; border:1px solid var(--border); overflow:hidden; backdrop-filter:var(--glass);">
+        <div style="padding:15px; background:rgba(0,255,65,0.05); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:800; font-size:13px; color:#88FF88;"><i class="fas fa-folder"></i> FILE MANAGER</span>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-gray" style="padding:5px 10px" onclick="document.getElementById('fUp').click()"><i class="fas fa-upload"></i></button>
+            <button class="btn btn-gray" style="padding:5px 10px" onclick="createNew('file')"><i class="fas fa-plus"></i></button>
+            <input type="file" id="fUp" hidden onchange="uploadFile(this)">
+          </div>
+        </div>
+        <div id="fileList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-overlay" id="menuOverlay" onclick="this.style.display='none'">
+    <div class="menu-content" onclick="event.stopPropagation()">
+      <div class="menu-item" id="btnEdit"><i class="fas fa-edit"></i> Edit File</div>
+      <div class="menu-item" id="btnRename"><i class="fas fa-pen"></i> Rename</div>
+      <div class="menu-item" id="btnZip"><i class="fas fa-file-archive"></i> Archive</div>
+      <div class="menu-item" id="btnUnzip"><i class="fas fa-box-open"></i> Unzip</div>
+      <div class="menu-item" id="btnDelete" style="color:#44FF44"><i class="fas fa-trash"></i> Delete</div>
+    </div>
+  </div>
+
+  <div id="editor">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+      <span id="edFile" style="font-family:'JetBrains Mono'; font-size:13px; color:#88FF88;"></span>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-gray" onclick="closeEditor()">CLOSE</button>
+        <button class="btn btn-green" onclick="saveFile()">SAVE CHANGES</button>
+      </div>
+    </div>
+    <textarea id="edText"></textarea>
+  </div>
+
+  <script>
+    // ============================================================
+    // SMOOTH CODE RAIN BACKGROUND ANIMATION - GREEN MATRIX
+    // ============================================================
+    const canvas = document.getElementById('codeCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    
+    // Code characters - mix of Python, symbols, and binary
+    const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz{}[]()<>;:?!@#$%^&*+=~`python def class import lambda async await self return True False None print eval exec";
+    const charArray = chars.split('');
+    
+    let fontSize = 16;
+    let columns;
+    let drops = [];
+    let frameCount = 0;
+    
+    function initCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      fontSize = 16;
+      columns = Math.floor(width / fontSize);
+      drops = [];
+      for(let i = 0; i < columns; i++) {
+        drops[i] = Math.floor(Math.random() * -height / fontSize);
+      }
+    }
+    
+    function drawCodeRain() {
+      // Semi-transparent black for smooth trail effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+      ctx.fillRect(0, 0, width, height);
+      
+      ctx.font = `${fontSize}px 'JetBrains Mono', 'Share Tech Mono', monospace`;
+      
+      for(let i = 0; i < drops.length; i++) {
+        // Random character
+        const char = charArray[Math.floor(Math.random() * charArray.length)];
+        
+        // Smooth color variation based on sine wave for organic feel - GREEN
+        const intensity = (Math.sin(frameCount * 0.02 + i * 0.1) + 1) / 2;
+        const greenBase = 180 + Math.floor(75 * intensity);
+        const redBlue = Math.floor(30 + 20 * intensity);
+        
+        ctx.fillStyle = `rgb(${redBlue}, ${greenBase}, ${redBlue})`;
+        
+        // Subtle glow effect
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = `rgba(0, ${Math.floor(200 * intensity)}, 0, 0.6)`;
+        
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+        
+        if(y > 0 && y < height) {
+          ctx.fillText(char, x, y);
+        }
+        
+        // Reset shadow for performance
+        ctx.shadowBlur = 0;
+        
+        // Reset drop to top with smooth probability
+        if(drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        
+        // Smooth falling speed variation
+        drops[i] += 0.6 + Math.random() * 0.5;
+      }
+      
+      // Occasional bright sparks for visual interest - GREEN
+      if(Math.random() < 0.015) {
+        ctx.font = `${fontSize + 4}px 'JetBrains Mono', monospace`;
+        ctx.fillStyle = '#44FF44';
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = '#00ff41';
+        const sparkCol = Math.floor(Math.random() * columns);
+        const sparkRow = drops[sparkCol] * fontSize;
+        if(sparkRow > 30 && sparkRow < height - 30) {
+          ctx.fillText('⚡', sparkCol * fontSize, sparkRow);
+        }
+        ctx.font = `${fontSize}px 'JetBrains Mono', monospace`;
+        ctx.shadowBlur = 0;
+      }
+      
+      frameCount++;
+      requestAnimationFrame(drawCodeRain);
+    }
+    
+    window.addEventListener('resize', () => { 
+      initCanvas(); 
+    });
+    
+    initCanvas();
+    drawCodeRain();
+    
+    // ============================================================
+    // DASHBOARD FUNCTIONALITY
+    // ============================================================
+    let curSrv = null; 
+    let logItv = null; 
+    let currentSubPath = ""; 
+    let editorInstance = null;
+
+    async function loadSrv() {
+      try {
+        const r = await fetch('/servers'); 
+        const d = await r.json();
+        document.getElementById('srvList').innerHTML = d.servers.map((s, idx) => `
+          <div class="srv-card animate__animated animate__fadeInUp" style="animation-delay: ${idx * 0.05}s">
+            <div onclick='openSrv(${JSON.stringify(s)})' style="cursor:pointer; flex:1">
+              <div style="font-weight:800; font-size:16px; color:#44FF44;">${escapeHtml(s.name)}</div>
+              <div style="font-size:11px; color:#AAFFAA; margin-top:4px;">${escapeHtml(s.folder)}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:10px; ${s.online ? 'color:#44FF44' : 'color:#226622'}">${s.online ? '● RUNNING' : '○ OFFLINE'}</div>
+              <div style="font-size:10px; color:#55AA55; margin-top:5px;">${s.cpu || '0%'} | ${s.ram || '0 MB'}</div>
+            </div>
+          </div>`).join('');
+      } catch (e) {
+        console.error('Error loading servers:', e);
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+
+    function escapeJsString(str) {
+      return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+    }
+
+    function goBack() {
+      if (logItv) clearInterval(logItv);
+      curSrv = null;
+      currentSubPath = "";
+      document.getElementById('manageView').style.display = 'none';
+      document.getElementById('homeView').style.display = 'block';
+      loadSrv();
+    }
+
+    function openSrv(s) {
+      curSrv = s; 
+      currentSubPath = "";
+      document.getElementById('homeView').style.display='none'; 
+      document.getElementById('manageView').style.display='block';
+      document.getElementById('vSrvName').innerHTML = `<i class="fas fa-cube"></i> ${escapeHtml(s.name)}`;
+      loadFiles(); 
+      startLogs();
+    }
+
+    async function unzipAction(name) {
+      Swal.fire({title:'Extracting...', allowOutsideClick:false, didOpen:()=>Swal.showLoading(), background:'#0a1a0a', color:'#00FF41'});
+      try {
+        const res = await fetch(`/files/unzip/${curSrv.folder}`, {
+          method:'POST', 
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({name: name, path: currentSubPath})
+        });
+        const d = await res.json(); 
+        Swal.close();
+        if(d.status==='success'){ 
+          loadFiles(); 
+          Swal.fire({toast:true, position:'top-end', icon:'success', title:'Extracted!', timer:2000, background:'#0a1a0a', color:'#00FF41', showConfirmButton:false}); 
+        } else { 
+          Swal.fire({icon:'error', title:'Error', text:d.msg || 'Failed to extract', background:'#0a1a0a', color:'#00FF41'}); 
+        }
+      } catch (e) {
+        Swal.close();
+        Swal.fire({icon:'error', title:'Error', text:'Could not reach server', background:'#0a1a0a', color:'#00FF41'});
+      }
+    }
+
+    function startLogs() {
+      if(logItv) clearInterval(logItv);
+      logItv = setInterval(async () => {
+        if(!curSrv) return;
+        try {
+          const r = await fetch(`/server/log/${curSrv.folder}`); 
+          const d = await r.json();
+          const c = document.getElementById('console');
+          if(d.log && d.log !== c.getAttribute('data-raw')) {
+            c.setAttribute('data-raw', d.log);
+            c.innerHTML = d.log.split('\n').filter(l => l.trim()).map(l => `<div class="log-line"><span class="log-time">[${new Date().toLocaleTimeString()}]</span>${escapeHtml(l)}</div>`).join('');
+            c.scrollTop = c.scrollHeight;
+          }
+          document.getElementById('vUptime').innerHTML = d.online ? `<i class="fas fa-circle" style="color:#44FF44; font-size:8px;"></i> UPTIME: ${d.uptime || 'N/A'}` : '<i class="fas fa-circle" style="color:#226622; font-size:8px;"></i> OFFLINE';
+        } catch (e) {
+          console.error('Log fetch error', e);
+        }
+      }, 2000);
+    }
+
+    async function loadFiles() {
+      try {
+        const r = await fetch(`/files/list/${curSrv.folder}?path=${encodeURIComponent(currentSubPath)}`); 
+        const d = await r.json();
+        if (currentSubPath) {
+          document.getElementById('fileList').innerHTML = `
+            <div class="file-item" onclick="goUpFolder()">
+              <span><i class="fas fa-folder-open"></i> .. (Go Up)</span>
+              <span></span>
+            </div>
+            ${d.map(f => `
+              <div class="file-item" onclick="${f.is_dir ? `enterFolder('${escapeJsString(f.name)}')` : ''}">
+                <span><i class="fas ${f.is_dir ? 'fa-folder' : 'fa-file-code'}"></i> ${escapeHtml(f.name)}</span>
+                <i class="fas fa-ellipsis-v" onclick="event.stopPropagation(); openFileMenu('${escapeJsString(f.name)}', ${f.is_zip || false}, ${f.is_dir || false})"></i>
+              </div>`).join('')}
+          `;
+        } else {
+          document.getElementById('fileList').innerHTML = d.map(f => `
+            <div class="file-item" onclick="${f.is_dir ? `enterFolder('${escapeJsString(f.name)}')` : ''}">
+              <span><i class="fas ${f.is_dir ? 'fa-folder' : 'fa-file-code'}"></i> ${escapeHtml(f.name)}</span>
+              <i class="fas fa-ellipsis-v" onclick="event.stopPropagation(); openFileMenu('${escapeJsString(f.name)}', ${f.is_zip || false}, ${f.is_dir || false})"></i>
+            </div>`).join('');
+        }
+      } catch (e) {
+        console.error('Error loading files', e);
+      }
+    }
+
+    function goUpFolder() {
+      const parts = currentSubPath.split('/');
+      parts.pop();
+      currentSubPath = parts.join('/');
+      loadFiles();
+    }
+
+    function openFileMenu(name, isZip, isDir) {
+      document.getElementById('btnEdit').style.display = isDir ? 'none' : 'flex';
+      document.getElementById('btnUnzip').style.display = isZip ? 'flex' : 'none';
+      document.getElementById('btnEdit').onclick = () => { document.getElementById('menuOverlay').style.display='none'; editFile(name); };
+      document.getElementById('btnUnzip').onclick = () => { document.getElementById('menuOverlay').style.display='none'; unzipAction(name); };
+      document.getElementById('btnDelete').onclick = () => { document.getElementById('menuOverlay').style.display='none'; deleteFile(name); };
+      document.getElementById('btnRename').onclick = () => { document.getElementById('menuOverlay').style.display='none'; renameFile(name); };
+      document.getElementById('menuOverlay').style.display = 'flex';
+    }
+
+    function enterFolder(n) { 
+      currentSubPath += (currentSubPath==="" ? "" : "/") + n; 
+      loadFiles(); 
+    }
+
+    async function srvAction(a) { 
+      try {
+        await fetch(`/server/action/${curSrv.folder}/${a}`, {method:'POST'}); 
+        Swal.fire({toast:true, position:'top-end', icon:'info', title:`${a.toUpperCase()} command sent`, timer:1500, background:'#0a1a0a', color:'#00FF41', showConfirmButton:false});
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function deleteServer() {
+      const confirm = await Swal.fire({
+        title: '⚠️ Delete Server?',
+        text: 'This will permanently delete all files and data. This action cannot be undone.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#00FF41',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete it',
+        background: '#0a1a0a',
+        color: '#00FF41'
+      });
+
+      if (confirm.isConfirmed) {
+        try {
+          const res = await fetch(`/server/delete/${curSrv.folder}`, { method: 'POST' });
+          const data = await res.json();
+          if (data.status === 'deleted') {
+            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Server deleted', showConfirmButton: false, timer: 2000, background: '#0a1a0a', color: '#00FF41' });
+            goBack();
+          } else {
+            Swal.fire({ icon: 'error', title: 'Error', text: data.msg || 'Could not delete server', background: '#0a1a0a', color: '#00FF41' });
+          }
+        } catch (e) {
+          Swal.fire({ icon: 'error', title: 'Error', text: 'Network error', background: '#0a1a0a', color: '#00FF41' });
+        }
+      }
+    }
+
+    async function createServer() {
+      const { value: n } = await Swal.fire({
+        title: 'New Server',
+        text: 'Enter server name:',
+        input: 'text',
+        background: '#0a1a0a',
+        color: '#00FF41',
+        inputValidator: (value) => !value ? 'Server name required!' : null
+      });
+      if (n) {
+        try {
+          const res = await fetch('/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: n })
+          });
+          const data = await res.json();
+          if (data.status === 'success') {
+            loadSrv();
+            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: data.msg || 'Server created!', showConfirmButton: false, timer: 2000, background: '#0a1a0a', color: '#00FF41' });
+          } else {
+            Swal.fire({ icon: 'error', title: 'Creation Failed', text: data.msg || 'Unknown error', background: '#0a1a0a', color: '#00FF41' });
+          }
+        } catch (err) {
+          Swal.fire({ icon: 'error', title: 'Network Error', text: 'Could not reach server', background: '#0a1a0a', color: '#00FF41' });
+        }
+      }
+    }
+
+    async function editFile(n) {
+      try {
+        const res = await fetch(`/files/read/${curSrv.folder}?name=${encodeURIComponent(n)}&path=${encodeURIComponent(currentSubPath)}`);
+        const data = await res.json();
+        document.getElementById('edFile').innerHTML = `<i class="fas fa-file-code"></i> ${escapeHtml(n)}`;
+        if(!editorInstance) {
+          editorInstance = CodeMirror.fromTextArea(document.getElementById('edText'), { mode: "python", theme: "dracula", lineNumbers: true, lineWrapping: true });
+        } else { 
+          editorInstance.setValue(data.content || ''); 
+        }
+        document.getElementById('editor').style.display = 'block';
+      } catch (e) {
+        Swal.fire({ icon: 'error', title: 'Error', text: 'Could not read file', background: '#0a1a0a', color: '#00FF41' });
+      }
+    }
+
+    async function saveFile() {
+      const n = document.getElementById('edFile').innerText;
+      const c = editorInstance.getValue();
+      try {
+        await fetch(`/files/save/${curSrv.folder}`, {
+          method: 'POST', 
+          headers: { 'Content-Type': 'application/json' }, 
+          body: JSON.stringify({ name: n, content: c, path: currentSubPath })
+        });
+        closeEditor(); 
+        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Saved!', timer: 2000, background: '#0a1a0a', color: '#00FF41', showConfirmButton: false });
+      } catch (e) {
+        Swal.fire({ icon: 'error', title: 'Error', text: 'Could not save', background: '#0a1a0a', color: '#00FF41' });
+      }
+    }
+
+    async function uploadFile(input) {
+      if(!input.files[0]) return;
+      let fd = new FormData(); 
+      fd.append("file", input.files[0]); 
+      fd.append("path", currentSubPath);
+      try {
+        await fetch(`/files/upload/${curSrv.folder}`, { method: 'POST', body: fd }); 
+        loadFiles(); 
+        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Uploaded!', timer: 2000, background: '#0a1a0a', color: '#00FF41', showConfirmButton: false });
+      } catch (e) {
+        Swal.fire({ icon: 'error', title: 'Error', text: 'Upload failed', background: '#0a1a0a', color: '#00FF41' });
+      }
+      input.value = '';
+    }
+
+    async function createNew(type) {
+      const { value: n } = await Swal.fire({ title: `New ${type}`, input: 'text', background: '#0a1a0a', color: '#00FF41', inputValidator: (value) => !value ? 'Name required!' : null });
+      if (n) {
+        const url = type === 'file' ? `/files/create-file/${curSrv.folder}` : `/files/create-folder/${curSrv.folder}`;
+        try {
+          await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: n, path: currentSubPath }) });
+          loadFiles();
+          Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `${type} created!`, timer: 1500, background: '#0a1a0a', color: '#00FF41', showConfirmButton: false });
+        } catch (e) {
+          Swal.fire({ icon: 'error', title: 'Error', text: 'Creation failed', background: '#0a1a0a', color: '#00FF41' });
+        }
+      }
+    }
+
+    async function deleteFile(n) {
+      const res = await Swal.fire({ title: 'Delete?', text: n, icon: 'warning', showCancelButton: true, background: '#0a1a0a', color: '#00FF41', confirmButtonColor: '#00FF41' });
+      if (res.isConfirmed) {
+        try {
+          await fetch(`/files/delete-bulk/${curSrv.folder}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ names: [n], path: currentSubPath }) });
+          loadFiles();
+          Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Deleted!', timer: 1500, background: '#0a1a0a', color: '#00FF41', showConfirmButton: false });
+        } catch (e) {
+          Swal.fire({ icon: 'error', title: 'Error', text: 'Delete failed', background: '#0a1a0a', color: '#00FF41' });
+        }
+      }
+    }
+
+    async function renameFile(n) {
+      const { value: newName } = await Swal.fire({
+        title: 'Rename',
+        input: 'text',
+        inputValue: n,
+        background: '#0a1a0a',
+        color: '#00FF41',
+        inputValidator: (value) => !value ? 'Name required!' : null
+      });
+      if (newName && newName !== n) {
+        try {
+          await fetch(`/files/rename/${curSrv.folder}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ old: n, new: newName, path: currentSubPath })
+          });
+          loadFiles();
+          Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Renamed!', timer: 1500, background: '#0a1a0a', color: '#00FF41', showConfirmButton: false });
+        } catch (e) {
+          Swal.fire({ icon: 'error', title: 'Error', text: 'Rename failed', background: '#0a1a0a', color: '#00FF41' });
+        }
+      }
+    }
+
+    function sendConsoleCommand() {
+      const cmd = document.getElementById('termCmd').value;
+      if (cmd) { 
+        fetch(`/server/command/${curSrv.folder}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ command: cmd }) }); 
+        document.getElementById('termCmd').value = ''; 
+      }
+    }
+
+    function closeEditor() { 
+      document.getElementById('editor').style.display = 'none'; 
+    }
+
+    document.addEventListener('DOMContentLoaded', loadSrv);
+  </script>
+</body>
+</html>
