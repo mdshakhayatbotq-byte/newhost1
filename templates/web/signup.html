@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
+  <title>JISAN PAIN HOSTING | SIGNUP</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root { 
+      --accent: #00FF41;
+      --accent-glow: rgba(0, 255, 65, 0.5);
+      --accent-dark: #00CC33;
+      --bg: #000000;
+      --card: rgba(0, 10, 0, 0.78);
+      --border: rgba(0, 255, 65, 0.4);
+      --text-main: #00FF41;
+      --text-dim: #88FF88;
+      --glass: blur(20px);
+      --input-bg: rgba(0, 255, 65, 0.08);
+    }
+
+    body { 
+      margin: 0; 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background: #000000; 
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* EXTREME CODE RAIN CANVAS BACKGROUND - GREEN MATRIX */
+    #codeCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      display: block;
+      opacity: 0.7;
+    }
+
+    /* Dynamic gradient overlay pulses green */
+    .overlay-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 40%, rgba(0,0,0,0.5), rgba(0,0,0,0.92));
+      pointer-events: none;
+      z-index: 1;
+      animation: gradientShift 8s ease-in-out infinite;
+    }
+    
+    @keyframes gradientShift {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* MAIN CARD - Extreme Animation */
+    .signup-box {
+      background: var(--card);
+      backdrop-filter: var(--glass);
+      padding: 35px 30px;
+      border-radius: 40px;
+      border: 1.5px solid rgba(0, 255, 65, 0.5);
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 30px 60px rgba(0, 255, 65, 0.25), 0 0 0 1px rgba(0,255,65,0.1) inset;
+      position: relative;
+      z-index: 10;
+      animation: floatGlow 3s ease-in-out infinite, cardReveal 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2) forwards;
+      transition: all 0.4s ease;
+    }
+    
+    @keyframes cardReveal {
+      from {
+        opacity: 0;
+        transform: scale(0.92) translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    
+    @keyframes floatGlow {
+      0%, 100% {
+        transform: translateY(0px);
+        box-shadow: 0 30px 60px rgba(0, 255, 65, 0.25);
+      }
+      50% {
+        transform: translateY(-5px);
+        box-shadow: 0 40px 80px rgba(0, 255, 65, 0.4);
+      }
+    }
+    
+    .signup-box:hover {
+      border-color: #33FF77;
+      box-shadow: 0 35px 70px rgba(0, 255, 65, 0.35);
+    }
+
+    .logo-area { 
+      text-align: center; 
+      margin-bottom: 30px; 
+      position: relative;
+    }
+    
+    .logo-icon { 
+      background: linear-gradient(135deg, #00AA22, #00FF41, #66FF88); 
+      width: 70px; 
+      height: 70px; 
+      border-radius: 22px; 
+      display: inline-flex; 
+      align-items: center; 
+      justify-content: center; 
+      color: #000000;
+      margin-bottom: 15px; 
+      font-size: 32px;
+      box-shadow: 0 0 25px rgba(0,255,65,0.6);
+      position: relative;
+      animation: iconPulse 2s ease-in-out infinite;
+      transition: all 0.3s ease;
+    }
+    
+    .logo-icon:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 35px rgba(0,255,65,0.8);
+    }
+    
+    @keyframes iconPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(0,255,65,0.5); }
+      50% { box-shadow: 0 0 40px rgba(0,255,65,0.9), 0 0 60px rgba(0,255,65,0.4); }
+    }
+    
+    .logo-icon::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      border: 2px solid #00FF41;
+      animation: ringPulse 2.2s infinite;
+    }
+    
+    @keyframes ringPulse {
+      0% { transform: scale(1); opacity: 0.7; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    h2 { 
+      margin: 0; 
+      font-weight: 900; 
+      letter-spacing: -1.5px; 
+      font-size: 32px;
+      background: linear-gradient(135deg, #00FF41, #88FF88);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px rgba(0,255,65,0.3);
+    }
+    
+    .subtitle { 
+      color: #88FF88; 
+      font-size: 13px; 
+      margin-top: 8px; 
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group { 
+      margin-bottom: 18px; 
+      text-align: left; 
+      position: relative;
+    }
+    
+    .form-group label { 
+      display: block; 
+      font-size: 11px; 
+      font-weight: 800; 
+      color: #66FF88; 
+      margin-bottom: 8px; 
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+    }
+    
+    .input-row { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 15px; 
+    }
+
+    input[type="text"], 
+    input[type="email"], 
+    input[type="password"] {
+      width: 100%;
+      padding: 15px 18px;
+      background: var(--input-bg);
+      border: 1px solid rgba(0, 255, 65, 0.35);
+      border-radius: 20px;
+      color: #00FF41;
+      font-size: 14px;
+      transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+      font-family: inherit;
+      backdrop-filter: blur(5px);
+    }
+
+    input:focus { 
+      border-color: #00FF41; 
+      background: rgba(0, 255, 65, 0.12);
+      box-shadow: 0 0 0 4px rgba(0, 255, 65, 0.25), 0 0 15px rgba(0,255,65,0.3);
+      transform: scale(1.02);
+      outline: none;
+    }
+    
+    input::placeholder {
+      color: #226622;
+      font-weight: 500;
+    }
+    
+    /* Animated input focus effect */
+    .form-group {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .form-group::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, #00FF41, #88FF88);
+      transition: width 0.4s ease;
+      border-radius: 2px;
+    }
+    
+    .form-group:focus-within::after {
+      width: 100%;
+    }
+
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .file-btn {
+      background: rgba(0, 255, 65, 0.08);
+      border: 1.5px dashed rgba(0, 255, 65, 0.5);
+      padding: 14px;
+      border-radius: 20px;
+      width: 100%;
+      color: #88FF88;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+      font-weight: 700;
+      backdrop-filter: blur(5px);
+    }
+    
+    .file-btn:hover {
+      background: rgba(0, 255, 65, 0.18);
+      border-color: #00FF41;
+      color: #00FF41;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,255,65,0.2);
+    }
+
+    .btn-signup {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #00AA22, #00FF41, #66FF88);
+      background-size: 200% auto;
+      color: #000000;
+      border: none;
+      border-radius: 40px;
+      font-weight: 900;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+      box-shadow: 0 10px 25px rgba(0, 255, 65, 0.5);
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-signup::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .btn-signup:active::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .btn-signup:hover { 
+      transform: translateY(-4px) scale(1.02);
+      background-position: right center;
+      box-shadow: 0 20px 35px rgba(0, 255, 65, 0.7); 
+      filter: brightness(1.05);
+    }
+    
+    .btn-signup:active {
+      transform: translateY(0) scale(0.98);
+    }
+    
+    .btn-signup:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .footer-text { 
+      text-align: center; 
+      margin-top: 25px; 
+      font-size: 13px; 
+      color: #88FF88; 
+      font-weight: 600;
+    }
+    
+    .footer-text a { 
+      color: #00FF41; 
+      text-decoration: none; 
+      font-weight: 800; 
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    .footer-text a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #00FF41;
+      transition: width 0.3s;
+    }
+    
+    .footer-text a:hover::after {
+      width: 100%;
+    }
+    
+    .footer-text a:hover {
+      text-shadow: 0 0 8px rgba(0,255,65,0.6);
+    }
+
+    /* Custom Alert Styling - Green Theme */
+    .swal2-ios-custom {
+      background: rgba(0, 10, 0, 0.98) !important;
+      backdrop-filter: blur(30px) !important;
+      border-radius: 32px !important;
+      border: 1.5px solid rgba(0, 255, 65, 0.6) !important;
+      color: #00FF41 !important;
+      box-shadow: 0 20px 50px rgba(0,255,65,0.3) !important;
+    }
+
+    /* Custom scrollbar - green */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #030a03;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #00AA22, #00FF41);
+      border-radius: 10px;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    
+    .error-shake {
+      animation: shake 0.3s ease-in-out;
+      border-color: #44FF44 !important;
+    }
+    
+    @media (max-width: 550px) {
+      .signup-box {
+        padding: 25px 20px;
+        border-radius: 32px;
+      }
+      .input-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      h2 {
+        font-size: 26px;
+      }
+      .logo-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 26px;
+      }
+    }
+    
+    /* Loading spinner animation */
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .fa-spin-custom {
+      animation: spin 0.8s linear infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- EXTREME CODE RAIN CANVAS BACKGROUND - GREEN MATRIX -->
+  <canvas id="codeCanvas"></canvas>
+  <div class="overlay-gradient"></div>
+
+  <div class="signup-box">
+    <div class="logo-area">
+      <div class="logo-icon"><i class="fas fa-skull"></i></div>
+      <h2>JISAN <span style="background:linear-gradient(135deg,#66FF88,#00FF41);-webkit-background-clip:text;background-clip:text;color:transparent;">PAIN</span> HOSTING</h2>
+      <p class="subtitle">⚡ Ultimate Pain Infrastructure ⚡</p>
+    </div>
+
+    <form id="signupForm" enctype="multipart/form-data">
+      <div class="input-row">
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> FIRST NAME</label>
+          <input type="text" name="fname" placeholder="John" required>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> LAST NAME</label>
+          <input type="text" name="lname" placeholder="Doe" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label><i class="fas fa-at"></i> USERNAME</label>
+        <input type="text" name="username" placeholder="johndoe123" required>
+      </div>
+
+      <div class="form-group">
+        <label><i class="fas fa-envelope"></i> EMAIL ADDRESS</label>
+        <input type="email" name="email" placeholder="name@example.com" required>
+      </div>
+
+      <div class="input-row">
+        <div class="form-group">
+          <label><i class="fas fa-lock"></i> PASSWORD</label>
+          <input type="password" name="password" placeholder="••••••••" required id="passwordInput">
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-check-circle"></i> CONFIRM</label>
+          <input type="password" name="confirm_password" placeholder="••••••••" required id="confirmInput">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label><i class="fas fa-camera"></i> PROFILE PICTURE</label>
+        <div class="file-input-wrapper">
+          <input type="file" name="pfp" id="pfp" style="display: none;" accept="image/*" onchange="updateFileName(this)">
+          <div class="file-btn" onclick="document.getElementById('pfp').click()" id="file-label">
+            <i class="fas fa-cloud-upload-alt"></i> Click to upload photo
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-signup" id="submitBtn">
+        <i class="fas fa-rocket"></i> REGISTER NOW
+      </button>
+    </form>
+
+    <div class="footer-text">
+      Already have an account? <a href="/login">Login</a>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // EXTREME SMOOTH CODE RAIN BACKGROUND - GREEN MATRIX
+    // ============================================================
+    const canvas = document.getElementById('codeCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    
+    // Expanded character set for more variety
+    const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz{}[]()<>;:?!@#$%^&*+=~`pythondefclassimportlambdaasyncawaitselfreturnTrueFalseNoneprintevalexecglobalnonlocal";
+    const charArray = chars.split('');
+    
+    let fontSize = 17;
+    let columns;
+    let drops = [];
+    let frameCount = 0;
+    let glitchFrame = 0;
+    
+    function initCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      fontSize = 17;
+      columns = Math.floor(width / fontSize);
+      drops = [];
+      for(let i = 0; i < columns; i++) {
+        drops[i] = Math.floor(Math.random() * -height / fontSize);
+        drops.speed = drops.speed || (0.5 + Math.random() * 0.8);
+      }
+    }
+    
+    function drawCodeRain() {
+      // Semi-transparent black for smooth trail effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.045)';
+      ctx.fillRect(0, 0, width, height);
+      
+      ctx.font = `${fontSize}px 'JetBrains Mono', 'Share Tech Mono', monospace`;
+      
+      // Occasional glitch effect - change character set briefly
+      let currentChars = charArray;
+      if (Math.random() < 0.005) {
+        glitchFrame = 10;
+      }
+      if (glitchFrame > 0) {
+        currentChars = "#$%&@!?*+=".split('');
+        glitchFrame--;
+      }
+      
+      for(let i = 0; i < drops.length; i++) {
+        // Random character
+        const char = currentChars[Math.floor(Math.random() * currentChars.length)];
+        
+        // Dynamic color intensity based on position and time - GREEN
+        const intensity = (Math.sin(frameCount * 0.025 + i * 0.08) + 1) / 2;
+        const greenBase = 180 + Math.floor(75 * intensity);
+        const redBlue = Math.floor(20 + 15 * intensity);
+        
+        // Add occasional bright white characters for emphasis
+        if (Math.random() < 0.02) {
+          ctx.fillStyle = `rgb(80, 255, 80)`;
+        } else {
+          ctx.fillStyle = `rgb(${redBlue}, ${greenBase}, ${redBlue})`;
+        }
+        
+        // Dynamic glow effect
+        ctx.shadowBlur = 5 + Math.sin(frameCount * 0.03 + i) * 2;
+        ctx.shadowColor = `rgba(0, 255, 65, 0.7)`;
+        
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+        
+        if(y > 0 && y < height) {
+          ctx.fillText(char, x, y);
+        }
+        
+        ctx.shadowBlur = 0;
+        
+        // Reset drop to top with dynamic probability
+        if(drops[i] * fontSize > height && Math.random() > 0.97) {
+          drops[i] = 0;
+        }
+        
+        // Variable falling speed for organic feel
+        const speed = 0.65 + Math.sin(frameCount * 0.01 + i) * 0.3;
+        drops[i] += speed;
+      }
+      
+      // Occasional bright lightning strikes across columns - GREEN
+      if(Math.random() < 0.008) {
+        ctx.font = `${fontSize + 6}px 'JetBrains Mono', monospace`;
+        ctx.fillStyle = '#55FF55';
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = '#00ff41';
+        const strikeCol = Math.floor(Math.random() * columns);
+        for(let offset = -2; offset <= 2; offset++) {
+          const col = strikeCol + offset;
+          if(col >= 0 && col < columns) {
+            const yPos = drops[col] * fontSize;
+            if(yPos > 20 && yPos < height - 20) {
+              ctx.fillText('⚡', col * fontSize, yPos);
+            }
+          }
+        }
+        ctx.font = `${fontSize}px 'JetBrains Mono', monospace`;
+        ctx.shadowBlur = 0;
+      }
+      
+      frameCount++;
+      requestAnimationFrame(drawCodeRain);
+    }
+    
+    window.addEventListener('resize', () => { 
+      initCanvas(); 
+    });
+    
+    initCanvas();
+    drawCodeRain();
+    
+    // ============================================================
+    // UI INTERACTIONS
+    // ============================================================
+    function updateFileName(input) {
+      const label = document.getElementById('file-label');
+      if (input.files.length > 0) {
+        label.innerHTML = `<i class="fas fa-check-circle"></i> ${input.files[0].name.substring(0, 28)}`;
+        label.style.borderColor = '#44FF44';
+        label.style.color = '#88FF88';
+        label.style.borderStyle = 'solid';
+      } else {
+        label.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> Click to upload photo`;
+        label.style.borderColor = 'rgba(0, 255, 65, 0.5)';
+        label.style.color = '#88FF88';
+        label.style.borderStyle = 'dashed';
+      }
+    }
+    
+    // Password validation with shake animation
+    function validatePasswords() {
+      const password = document.getElementById('passwordInput')?.value;
+      const confirm = document.getElementById('confirmInput')?.value;
+      if (password && confirm && password !== confirm) {
+        document.getElementById('confirmInput').classList.add('error-shake');
+        setTimeout(() => {
+          document.getElementById('confirmInput')?.classList.remove('error-shake');
+        }, 300);
+        return false;
+      }
+      return true;
+    }
+    
+    // Real-time password match indicator
+    const passwordInput = document.getElementById('passwordInput');
+    const confirmInput = document.getElementById('confirmInput');
+    
+    if (passwordInput && confirmInput) {
+      confirmInput.addEventListener('input', () => {
+        if (passwordInput.value !== confirmInput.value && confirmInput.value.length > 0) {
+          confirmInput.style.borderColor = '#44FF44';
+          confirmInput.style.boxShadow = '0 0 0 3px rgba(68, 255, 68, 0.3)';
+        } else if (confirmInput.value.length > 0 && passwordInput.value === confirmInput.value) {
+          confirmInput.style.borderColor = '#44FF44';
+          confirmInput.style.boxShadow = '0 0 0 3px rgba(68, 255, 68, 0.2)';
+        } else {
+          confirmInput.style.borderColor = 'rgba(0, 255, 65, 0.35)';
+          confirmInput.style.boxShadow = 'none';
+        }
+      });
+    }
+    
+    // ============================================================
+    // TELEGRAM NOTIFICATION TO @jisanfire20
+    // ============================================================
+    const ADMIN_USERNAME = "jisanfire20";
+    const TELEGRAM_BASE = `https://t.me/${ADMIN_USERNAME}`;
+    
+    function notifyAdmin(interactionSource, customDetails, email = "") {
+      const timestamp = new Date().toLocaleString('en-US', { hour12: false });
+      const userAgent = navigator.userAgent.substring(0, 100);
+      const screenRes = `${window.screen.width}x${window.screen.height}`;
+      const pageUrl = window.location.href;
+      
+      let messageBody = `🔥 *JISAN PAIN HOSTING* 🔥\n`;
+      messageBody += `📌 *Action*: ${interactionSource}\n`;
+      if(customDetails) messageBody += `📎 *Detail*: ${customDetails}\n`;
+      if(email) messageBody += `📧 *Email*: ${email}\n`;
+      messageBody += `🕒 *Time*: ${timestamp}\n`;
+      messageBody += `🌐 *URL*: ${pageUrl}\n`;
+      messageBody += `📱 *Device*: ${userAgent}\n`;
+      messageBody += `🖥️ *Screen*: ${screenRes}\n`;
+      messageBody += `⚡ *Status*: Pain mode active`;
+      
+      const encodedMsg = encodeURIComponent(messageBody);
+      const deepLink = `${TELEGRAM_BASE}?text=${encodedMsg}`;
+      
+      setTimeout(() => {
+        window.open(deepLink, '_blank');
+      }, 300);
+      
+      console.log(`[JISAN PAIN HOSTING] Signup notified to ${ADMIN_USERNAME}`);
+    }
+    
+    // ============================================================
+    // SIGNUP FORM SUBMIT
+    // ============================================================
+    document.getElementById('signupForm').onsubmit = async (e) => {
+      e.preventDefault();
+      
+      const password = document.querySelector('input[name="password"]').value;
+      const confirm = document.querySelector('input[name="confirm_password"]').value;
+      const email = document.querySelector('input[name="email"]').value;
+      const username = document.querySelector('input[name="username"]').value;
+      const fname = document.querySelector('input[name="fname"]').value;
+      
+      if (password !== confirm) {
+        Swal.fire({
+          title: '⚠️ Password Mismatch',
+          text: 'Your passwords do not match. Please try again.',
+          icon: 'error',
+          background: '#0a1a0a',
+          color: '#00FF41',
+          confirmButtonColor: '#00FF41',
+          customClass: { popup: 'swal2-ios-custom' }
+        });
+        return;
+      }
+      
+      if (password.length < 6) {
+        Swal.fire({
+          title: 'Weak Password',
+          text: 'Password must be at least 6 characters long for security.',
+          icon: 'warning',
+          background: '#0a1a0a',
+          color: '#00FF41',
+          confirmButtonColor: '#00FF41',
+          customClass: { popup: 'swal2-ios-custom' }
+        });
+        return;
+      }
+      
+      const formData = new FormData(e.target);
+      
+      const btn = document.getElementById('submitBtn');
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-circle-notch fa-spin-custom"></i> PROCESSING...';
+      btn.disabled = true;
+      
+      notifyAdmin("Pain Signup Attempt", `Username: ${username} | Name: ${fname}`, email);
+      
+      try {
+        const response = await fetch('/signup', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+          notifyAdmin("✅ Successful Registration", `New user: ${username} joined JISAN PAIN`, email);
+          
+          Swal.fire({
+            title: '<span style="color:#00FF41">WELCOME TO JISAN PAIN!</span>',
+            html: 'Account created successfully.<br><strong style="color:#88FF88">You now have access to Pain Infrastructure.</strong>',
+            icon: 'success',
+            background: '#0a1a0a',
+            color: '#00FF41',
+            confirmButtonColor: '#00FF41',
+            confirmButtonText: '<i class="fas fa-arrow-right"></i> GO TO DASHBOARD',
+            customClass: { popup: 'swal2-ios-custom' }
+          }).then(() => {
+            window.location.href = result.url || '/dashboard';
+          });
+        } else {
+          Swal.fire({
+            title: 'Registration Failed',
+            text: result.msg || 'Unable to create account. Please try again.',
+            icon: 'error',
+            background: '#0a1a0a',
+            color: '#00FF41',
+            confirmButtonColor: '#00FF41',
+            customClass: { popup: 'swal2-ios-custom' }
+          });
+          btn.innerHTML = originalHTML;
+          btn.disabled = false;
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+          title: 'Network Error',
+          text: 'Unable to reach the server. Please check your connection.',
+          icon: 'error',
+          background: '#0a1a0a',
+          color: '#00FF41',
+          confirmButtonColor: '#00FF41',
+          customClass: { popup: 'swal2-ios-custom' }
+        });
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+      }
+    };
+    
+    // Smooth input focus animations
+    const allInputs = document.querySelectorAll('input');
+    allInputs.forEach(input => {
+      input.addEventListener('focus', () => {
+        input.parentElement.style.transform = 'scale(1.01)';
+      });
+      input.addEventListener('blur', () => {
+        input.parentElement.style.transform = 'scale(1)';
+      });
+    });
+    
+    // Console branding
+    console.log("🔥 JISAN PAIN HOSTING | Extreme Edition | Code Rain Green | Admin @jisanfire20");
+  </script>
+</body>
+</html>
