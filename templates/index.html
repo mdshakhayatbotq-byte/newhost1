@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0, viewport-fit=cover">
+    <title>JISAN PAIN HOSTING | ULTRA — Smooth Cinematic Experience</title>
+    
+    <!-- Preconnect to speed up external resources -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- External assets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-black: #000000;
+            --bg-black-deep: #050505;
+            --bg-black-card: #0a0a0a;
+            --text-green: #00FF41;
+            --text-green-bright: #33FF77;
+            --text-green-dark: #00CC33;
+            --border-green: rgba(0, 255, 65, 0.35);
+            --accent-green-glow: rgba(0, 255, 65, 0.5);
+            --glass-green: rgba(0, 255, 65, 0.08);
+        }
+
+        body {
+            background-color: #000000;
+            color: var(--text-green);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* CANVAS BACKGROUND - SMOOTH CODE ANIMATION - GREEN */
+        #codeCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            display: block;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Dynamic gradient overlay that shifts with scroll */
+        .overlay-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(0,0,0,0.5), rgba(0,0,0,0.88));
+            pointer-events: none;
+            z-index: 1;
+            transition: background 0.5s ease;
+        }
+
+        /* All content above canvas */
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* navigation with smooth blur */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 6%;
+            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.7);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.4);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        
+        .nav-container.scrolled {
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom-color: #00FF41;
+            box-shadow: 0 8px 32px rgba(0,255,65,0.2);
+            padding: 0.7rem 6%;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            color: var(--text-green);
+            text-shadow: 0 0 8px rgba(0,255,65,0.5);
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.02);
+        }
+        .logo i {
+            color: var(--text-green-bright);
+            filter: drop-shadow(0 0 6px rgba(0,255,65,0.6));
+        }
+        .logo span {
+            color: #44FF44;
+            font-weight: 900;
+        }
+
+        .btn-login-modern {
+            background: linear-gradient(135deg, #00AA22, #00FF41);
+            padding: 9px 26px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-decoration: none;
+            color: #000000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            box-shadow: 0 4px 15px rgba(0,255,65,0.4);
+            border: 1px solid rgba(80,255,80,0.6);
+            letter-spacing: 0.5px;
+        }
+        .btn-login-modern:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: linear-gradient(135deg, #22FF44, #44FF66);
+            box-shadow: 0 12px 30px rgba(0,255,65,0.7);
+            color: #000000;
+        }
+
+        /* hero section with smooth fade in */
+        .hero-section {
+            text-align: center;
+            padding: 120px 5% 70px;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-title {
+            font-size: clamp(2.8rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.3rem;
+            color: #00FF41;
+            text-shadow: 0 0 20px rgba(0,255,65,0.5);
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes glowPulse {
+            0%, 100% { text-shadow: 0 0 15px rgba(0,255,65,0.5); }
+            50% { text-shadow: 0 0 30px rgba(0,255,65,0.9), 0 0 10px rgba(50,255,50,0.6); }
+        }
+        
+        .hero-title span {
+            color: #44FF44;
+            background: linear-gradient(135deg, #00FF41, #66FF88);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            font-weight: 900;
+        }
+        
+        /* Hero description - smooth glass morphism */
+        .hero-desc {
+            font-size: 1.25rem;
+            color: #44FF44;
+            max-width: 780px;
+            margin: 0 auto 2rem;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(16px);
+            padding: 18px 32px;
+            border-radius: 60px;
+            display: inline-block;
+            border: 1px solid rgba(0, 255, 65, 0.5);
+            box-shadow: 0 0 30px rgba(0,255,65,0.2);
+            letter-spacing: 0.3px;
+            line-height: 1.5;
+            transition: all 0.4s ease;
+        }
+        
+        .hero-desc:hover {
+            transform: scale(1.02);
+            border-color: #33FF77;
+            box-shadow: 0 0 40px rgba(0,255,65,0.4);
+        }
+        
+        .hero-desc i {
+            margin-right: 8px;
+            color: #66FF88;
+        }
+
+        /* Smooth button group */
+        .button-group {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .btn-main {
+            padding: 14px 38px;
+            border-radius: 60px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-main::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-main:active::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(95deg, #00AA22, #00FF41);
+            color: #000000;
+            box-shadow: 0 10px 24px rgba(0,255,65,0.5);
+            border: 1px solid rgba(100,255,100,0.7);
+        }
+        
+        .btn-secondary {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            border: 3px solid #00FF41;
+            color: #33FF77;
+            font-weight: 800;
+        }
+        
+        .btn-main:hover {
+            transform: translateY(-6px) scale(1.02);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(95deg, #22FF44, #44FF66);
+            box-shadow: 0 20px 35px rgba(0,255,65,0.7);
+            color: #000000;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 255, 65, 0.2);
+            border-color: #55FF88;
+            color: #66FF88;
+            transform: translateY(-6px) scale(1.02);
+        }
+
+        /* Feature cards with smooth hover and reveal */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 2.5rem;
+            padding: 3rem 6% 6rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .feature-card {
+            background: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 2rem;
+            padding: 2rem 1.8rem;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            box-shadow: 0 12px 28px rgba(0,255,65,0.08);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardReveal 0.8s ease-out forwards;
+        }
+        
+        @keyframes cardReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.3s; }
+        .feature-card:nth-child(3) { animation-delay: 0.5s; }
+        
+        .feature-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: #44FF44;
+            background: rgba(5, 20, 5, 0.9);
+            box-shadow: 0 25px 45px rgba(0, 255, 65, 0.4);
+        }
+        
+        .feature-icon {
+            font-size: 2.8rem;
+            color: #00FF41;
+            margin-bottom: 1.3rem;
+            display: inline-block;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.15) rotate(5deg);
+            text-shadow: 0 0 15px rgba(0,255,65,0.8);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 0.7rem;
+            color: #44FF44;
+        }
+        
+        .feature-card p {
+            color: #88FF88;
+            font-weight: 500;
+            line-height: 1.45;
+        }
+
+        /* Contact zone with smooth pulse and entrance */
+        .contact-zone {
+            margin: 1rem 6% 5rem;
+            background: rgba(0, 8, 0, 0.75);
+            border-radius: 2.5rem;
+            border: 1.5px solid #00FF41;
+            padding: 3rem 2rem;
+            text-align: center;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 12px 35px rgba(0, 255, 65, 0.2);
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: scale(0.95);
+            animation: zoomIn 0.8s ease-out 0.6s forwards;
+        }
+        
+        @keyframes zoomIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .contact-zone h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #33FF77;
+            text-shadow: 0 0 5px rgba(0,255,65,0.5);
+        }
+        
+        .contact-zone p {
+            max-width: 550px;
+            margin: 0.8rem auto 2rem;
+            color: #77FF77;
+            font-weight: 600;
+        }
+        
+        .telegram-btn-green {
+            background: linear-gradient(95deg, #00AA22, #00FF41);
+            border: none;
+            padding: 14px 44px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            color: #000000;
+            box-shadow: 0 8px 20px rgba(0,255,65,0.5);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .telegram-btn-green:hover {
+            background: linear-gradient(95deg, #22FF44, #55FF77);
+            transform: translateY(-5px) scale(1.02);
+            color: #000000;
+            box-shadow: 0 15px 35px rgba(0,255,65,0.8);
+        }
+        
+        @keyframes btnPulse {
+            0%, 100% { box-shadow: 0 8px 20px rgba(0,255,65,0.5); }
+            50% { box-shadow: 0 8px 30px rgba(0,255,65,0.9); }
+        }
+        
+        .telegram-btn-green {
+            animation: btnPulse 2s ease-in-out infinite;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem 2.2rem;
+            color: #55CC55;
+            font-weight: 600;
+            border-top: 1px solid rgba(0, 255, 65, 0.3);
+            background: rgba(0, 0, 0, 0.7);
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            backdrop-filter: blur(8px);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom toast with smooth animation */
+        .notification-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #00AA22, #00FF41);
+            color: #000000;
+            padding: 14px 28px;
+            border-radius: 60px;
+            font-weight: 800;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.6);
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            font-family: monospace;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            pointer-events: none;
+        }
+        
+        .notification-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 760px) {
+            .features-grid {
+                padding: 1.5rem 5%;
+                gap: 1.5rem;
+            }
+            .hero-section {
+                padding: 80px 5% 40px;
+            }
+            .btn-main {
+                padding: 10px 22px;
+                font-size: 0.85rem;
+            }
+            .contact-zone h2 {
+                font-size: 1.6rem;
+            }
+            .hero-desc {
+                font-size: 1rem;
+                padding: 14px 20px;
+            }
+        }
+        
+        /* Mouse follower glow */
+        .mouse-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,255,65,0.15) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.05s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mouse-glow" id="mouseGlow"></div>
+    <canvas id="codeCanvas"></canvas>
+    <div class="overlay-gradient" id="overlayGradient"></div>
+    
+    <div class="content-wrapper">
+        <div class="nav-container" id="navbar">
+            <div class="logo">
+                <i class="fas fa-skull"></i> JISAN <span>PAIN</span> HOSTING
+            </div>
+            <div>
+                <a href="#" class="btn-login-modern" id="navConsoleBtn">
+                    <i class="fas fa-terminal"></i> Console Access
+                </a>
+            </div>
+        </div>
+
+        <main>
+            <div class="hero-section">
+                <h1 class="hero-title">
+                    Inferno <span>Python Bot</span> Core
+                </h1>
+                <p class="hero-desc">
+                    <i class="fas fa-shield-halved"></i> Deploy, scale & manage Telegram/Discord bots with elite security, ultra-low latency & non-stop uptime.
+                </p>
+                <div class="button-group">
+                    <a href="/login" class="btn-main btn-primary">🔐 Login</a>
+                    <a href="https://t.me/jisanfire20" class="btn-main btn-secondary" target="_blank"><i class="fab fa-telegram"></i> Admin Contact</a>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fab fa-python"></i></div>
+                    <h3>Python Optimized</h3>
+                    <p>Native asyncio, instant crash recovery & auto-scaling. Built for heavy bot ecosystems and custom modules.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Turbo Resources</h3>
+                    <p>NVMe SSD + dedicated cores. Process thousands of concurrent commands without breaking a sweat.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+                    <h3>DDoS Protection</h3>
+                    <p>Enterprise L7 mitigation, intelligent traffic filtering. Keep your bots online under massive attacks.</p>
+                </div>
+            </div>
+
+            <div class="contact-zone">
+                <h2>🔥 Emergency Admin Link 🔥</h2>
+                <p>Direct support line to @jisanfire20 — priority setup, custom deployment & instant assistance.</p>
+                <button id="telegramNotifyBtn" class="telegram-btn-green">
+                    <i class="fab fa-telegram"></i> Notify Admin on Telegram
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <i class="fas fa-fire"></i> JISAN PAIN HOSTING — Secured by jisanfire | Smooth Cinematic Core
+        </footer>
+    </div>
+
+    <script>
+        // ============================================================
+        // SMOOTH CODE RAIN BACKGROUND - GREEN MATRIX
+        // ============================================================
+        const canvas = document.getElementById('codeCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        
+        const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz{}[]()<>;:?!@#$%^&*+=~`python def class import lambda";
+        const charArray = chars.split('');
+        
+        let fontSize = 18;
+        let columns;
+        let drops = [];
+        let frameCount = 0;
+        
+        function initCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            fontSize = 18;
+            columns = Math.floor(width / fontSize);
+            drops = [];
+            for(let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -height / fontSize);
+            }
+        }
+        
+        function drawCodeRain() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, width, height);
+            ctx.font = `${fontSize}px 'Share Tech Mono', monospace`;
+            
+            for(let i = 0; i < drops.length; i++) {
+                const char = charArray[Math.floor(Math.random() * charArray.length)];
+                const intensity = Math.sin(frameCount * 0.01 + i) * 0.3 + 0.7;
+                const greenVal = Math.floor(200 + 55 * intensity);
+                ctx.fillStyle = `rgb(${Math.floor(30 * intensity)}, ${greenVal}, ${Math.floor(30 * intensity)})`;
+                
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = '#00FF41';
+                
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+                if(y > 0 && y < height) {
+                    ctx.fillText(char, x, y);
+                }
+                
+                ctx.shadowBlur = 0;
+                
+                if(drops[i] * fontSize > height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i] += 0.8 + Math.random() * 0.5;
+            }
+            
+            frameCount++;
+            requestAnimationFrame(drawCodeRain);
+        }
+        
+        window.addEventListener('resize', () => { initCanvas(); });
+        initCanvas();
+        drawCodeRain();
+        
+        // ============================================================
+        // SMOOTH UI INTERACTIONS
+        // ============================================================
+        
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if(window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Dynamic gradient based on scroll
+            const overlay = document.getElementById('overlayGradient');
+            const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+            overlay.style.background = `radial-gradient(circle at 20% 30%, rgba(0,0,0,0.5), rgba(0,0,0,${0.85 + scrollPercent * 0.1}))`;
+        });
+        
+        // Mouse follower glow effect
+        const mouseGlow = document.getElementById('mouseGlow');
+        document.addEventListener('mousemove', (e) => {
+            mouseGlow.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        });
+        
+        // Smooth toast function
+        function showToast(message, icon = "📢") {
+            const existingToast = document.querySelector('.notification-toast');
+            if(existingToast) existingToast.remove();
+            const toast = document.createElement('div');
+            toast.className = 'notification-toast';
+            toast.innerHTML = `<i class="fab fa-telegram"></i> ${icon} ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }, 3200);
+        }
+        
+        // Telegram notification
+        const ADMIN_USERNAME = "jisanfire20";
+        const TELEGRAM_BASE = `https://t.me/${ADMIN_USERNAME}`;
+        
+        function notifyTelegramAdmin(interactionSource = "website_interaction", customDetails = "") {
+            const timestamp = new Date().toLocaleString('en-US', { hour12: false });
+            const userAgent = navigator.userAgent.substring(0, 100);
+            const screenRes = `${window.screen.width}x${window.screen.height}`;
+            const pageUrl = window.location.href;
+            
+            let messageBody = `🚨 *JISAN PAIN HOSTING ALERT* 🚨\n`;
+            messageBody += `📌 *Action*: ${interactionSource}\n`;
+            if(customDetails) messageBody += `📎 *Detail*: ${customDetails}\n`;
+            messageBody += `🕒 *Time*: ${timestamp}\n`;
+            messageBody += `🌐 *URL*: ${pageUrl}\n`;
+            messageBody += `📱 *Device*: ${userAgent}\n`;
+            messageBody += `🖥️ *Screen*: ${screenRes}\n`;
+            messageBody += `⚡ *Status*: Immediate admin attention required.`;
+            
+            const encodedMsg = encodeURIComponent(messageBody);
+            const deepLink = `${TELEGRAM_BASE}?text=${encodedMsg}`;
+            
+            showToast(`📨 Alerting @${ADMIN_USERNAME} ...`, "🔥");
+            
+            setTimeout(() => {
+                window.open(deepLink, '_blank');
+            }, 350);
+            
+            if (window.navigator && window.navigator.vibrate) window.navigator.vibrate(20);
+            return false;
+        }
+        
+        // Event listeners with smooth feedback
+        document.getElementById('contactAdminBtnHero')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            notifyTelegramAdmin("Hero Section - Admin Contact Click", "User requested admin assistance");
+        });
+        
+        document.getElementById('telegramNotifyBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            notifyTelegramAdmin("Contact Zone - Direct Notify Button", "Urgent: user needs admin support");
+        });
+        
+        document.getElementById('launchConsoleBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            notifyTelegramAdmin("Launch Console (Primary CTA)", "User attempting to access deployment console");
+            showToast("⚡ Console environment requested — admin notified", "🚀");
+        });
+        
+        document.getElementById('navConsoleBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            notifyTelegramAdmin("Top Navigation - Console Access", "User clicked console access");
+            showToast("🔐 Secure console request sent to admin", "📡");
+        });
+        
+        document.querySelectorAll('.feature-card').forEach((card) => {
+            card.addEventListener('click', () => {
+                const featureTitle = card.querySelector('h3')?.innerText || "Feature";
+                notifyTelegramAdmin(`Feature Exploration: ${featureTitle}`, `User showed interest in ${featureTitle}`);
+                showToast(`💡 "${featureTitle}" info — admin notified`, "🔍");
+            });
+        });
+        
+        document.querySelectorAll('a[href="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => e.preventDefault());
+        });
+        
+        // Welcome notification
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                showToast("✅ Admin jisanfire is on duty — smooth animations active", "🤖");
+            }, 500);
+            setTimeout(() => {
+                if(!window._pageVisitNotified) {
+                    window._pageVisitNotified = true;
+                    notifyTelegramAdmin("Page Visit / Load", "New visitor on JISAN PAIN HOSTING platform");
+                }
+            }, 1500);
+        });
+        
+        // Haptic feedback
+        document.querySelectorAll('.btn-main, .btn-login-modern, .feature-card, .telegram-btn-green').forEach(el => {
+            el.addEventListener('click', () => {
+                if(window.navigator && window.navigator.vibrate) window.navigator.vibrate(8);
+            });
+        });
+        
+        console.log("🔥 JISAN PAIN HOSTING | Smooth animations & cinematic experience activated");
+    </script>
+</body>
+</html>
